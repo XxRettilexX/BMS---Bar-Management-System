@@ -13,13 +13,25 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('nome', 100);
+            $table->string('cognome', 100);
+            $table->string('email', 150)->unique();
             $table->string('password');
-            $table->rememberToken();
+            $table->enum('ruolo', [
+                'Admin',
+                'Titolare',
+                'BarManager',
+                'RegisterManager',
+                'Cameriere',
+                'Barman',
+                'Cassiera',
+                'Cuoco'
+            ]);
+            $table->decimal('salario_base', 10, 2)->default(0);
+            $table->date('data_assunzione')->nullable();
             $table->timestamps();
         });
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
