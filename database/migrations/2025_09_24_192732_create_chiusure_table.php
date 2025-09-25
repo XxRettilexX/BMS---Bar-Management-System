@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('spese')->default(0);
             $table->float('chiusura_pos')->default(0);
             $table->dateTime('data_chiusura');
+            $table->foreignId('cassa_id')->constrained('casse')->onDelete('cascade');
             $table->timestamps();
         });
     }

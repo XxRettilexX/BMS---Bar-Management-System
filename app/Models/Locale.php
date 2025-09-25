@@ -42,4 +42,8 @@ class Locale extends Model
     {
         return $this->hasMany(ChiusuraCassa::class, 'locale_id');
     }
+    public function casse()
+    {
+        return $this->hasMany(Cassa::class);
+    }
 }

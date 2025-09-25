@@ -11,7 +11,8 @@ class ChiusureController extends Controller
 {
     public function create(Locale $locale)
     {
-        return view('titolare.chiusure.create', compact('locale'));
+        $casse = $locale->casse()->get() ?? collect();
+        return view('titolare.chiusure.create', compact('locale', 'casse'));
     }
 
     public function store(Request $request, Locale $locale)
@@ -22,12 +23,20 @@ class ChiusureController extends Controller
             'spese' => 'nullable|numeric',
             'chiusura_pos' => 'nullable|numeric',
             'data_chiusura' => 'required|date',
+            'cassa_id' => 'required|exists:casse,id',
         ]);
 
-        $locale->chiusure()->create($request->all());
+        $data = $request->all();
+        $data['utente_id'] = auth()->id();
+        $data['locale_id'] = $locale->id;
 
-        return redirect()->route('titolare.locale.show', $locale->id)->with('success', 'Chiusura registrata!');
+        ChiusuraCassa::create($data);
+
+
+        return redirect()->route('titolare.locale.show', $locale->id)
+            ->with('success', 'Chiusura registrata!');
     }
+
 
     public function edit(ChiusuraCassa $chiusura)
     {

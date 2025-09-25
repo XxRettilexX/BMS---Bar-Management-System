@@ -30,4 +30,8 @@ class ChiusuraCassa extends Model
     {
         return $this->belongsTo(Utente::class, 'utente_id');
     }
+    public function cassa()
+    {
+        return $this->belongsTo(Cassa::class, `cassa_id`);
+    }
 }

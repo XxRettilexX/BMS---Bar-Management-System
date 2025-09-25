@@ -25,9 +25,10 @@ class DashboardController extends Controller
             abort(403);
         }
 
-        $magazzino = $locale->magazzino ?? [];
-        $chiusure = $locale->chiusure ?? [];
-        $dipendenti = $locale->dipendenti ?? [];
+        $magazzino   = $locale->magazzino()->orderBy('updated_at', 'desc')->get() ?? collect();
+        $chiusure    = $locale->chiusure()->orderBy('data_chiusura', 'desc')->get() ?? collect();
+        $dipendenti  = $locale->dipendenti()->orderBy('created_at', 'desc')->get() ?? collect();
+
 
         return view('titolare.locale', compact('locale', 'magazzino', 'chiusure', 'dipendenti'));
     }

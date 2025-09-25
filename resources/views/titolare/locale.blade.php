@@ -27,11 +27,14 @@
     <ul class="list-group mb-4">
         @foreach($chiusure as $chiusura)
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ $chiusura->data_chiusura }} - Totale: {{ $chiusura->scarico_contante + $chiusura->fondo_cassa + $chiusura->chiusura_pos - $chiusura->spese }}
+            {{ \Carbon\Carbon::parse($chiusura->data_chiusura)->format('d/m/Y') }} - Totale (scarico + pos - spese):
+            {{ $chiusura->scarico_contante + $chiusura->chiusura_pos - $chiusura->spese }} €
+            <span class="badge bg-info">{{ $chiusura->cassa ? $chiusura->cassa->nome : 'Cassa non definita' }}</span>
             <a href="{{ route('titolare.chiusure.edit', $chiusura->id) }}" class="btn btn-primary btn-sm">Modifica</a>
         </li>
         @endforeach
     </ul>
+
 
     <!-- Dipendenti -->
     <div class="d-flex justify-content-between align-items-center mt-4 mb-2">

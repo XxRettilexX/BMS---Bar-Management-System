@@ -3,6 +3,15 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Titolare\DashboardController;
+use App\Http\Controllers\Titolare\MagazzinoController;
+use App\Http\Controllers\Titolare\ChiusureController;
+use App\Http\Controllers\Titolare\DipendenteController;
+use App\Http\Controllers\Titolare\CassaController;
+
+Route::get('/', function () {
+    return redirect()->to('/login');
+});
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -15,10 +24,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 
-use App\Http\Controllers\Titolare\DashboardController;
-use App\Http\Controllers\Titolare\MagazzinoController;
-use App\Http\Controllers\Titolare\ChiusureController;
-use App\Http\Controllers\Titolare\DipendenteController;
+
 
 Route::middleware(['auth'])->prefix('titolare')->name('titolare.')->group(function () {
 
@@ -50,4 +56,7 @@ Route::middleware(['auth'])->prefix('titolare')->name('titolare.')->group(functi
     Route::get('/dipendenti/{dipendente}/edit', [DipendenteController::class, 'edit'])->name('dipendenti.edit');
     Route::put('/dipendenti/{dipendente}', [DipendenteController::class, 'update'])->name('dipendenti.update');
     Route::delete('/dipendenti/{dipendente}', [DipendenteController::class, 'destroy'])->name('dipendenti.destroy');
+
+    Route::post('/titolare/locale/{locale}/casse', [CassaController::class, 'store'])->name('titolare.casse.store');
+    Route::post('/locale/{locale}/casse', [CassaController::class, 'store'])->name('casse.store');
 });
